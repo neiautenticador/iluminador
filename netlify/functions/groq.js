@@ -48,7 +48,7 @@ Mantenha o tom inspirador, compassivo e prático.`;
             content: prompt
           }
         ],
-        model: 'meta-llama/llama-3.1-8b-instant',
+        model: 'meta-llama/llama-4-maverick-17b-128e-instruct',
         max_tokens: 1000,
         temperature: 0.7
       })
