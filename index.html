@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iluminador de Desejos - Transforme seus Desejos com Sabedoria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3); }
+            to { text-shadow: 0 4px 30px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.2); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.8rem;
+        }
+
+        .desire-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .desire-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .illuminate-btn {
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .illuminate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .illuminate-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #667eea;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-card {
+            display: none;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-left: 5px solid #667eea;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .illuminated-desire {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+            line-height: 1.6;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-left: 4px solid #667eea;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .additional-info {
+            margin-top: 1rem;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .expand-btn:hover {
+            color: #553c9a;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .additional-content {
+            display: none;
+            animation: slideDown 0.3s ease-out;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .additional-content.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+        }
+
+        .error-card {
+            display: none;
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .wisdom-quote {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .quote-author {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .main-card {
+                padding: 2rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="logo">✨ Iluminador de Desejos</h1>
+            <p class="subtitle">
+                Transforme seus desejos mundanos em sabedoria iluminada através dos ensinamentos de Nichiren Daishonin
+            </p>
+        </header>
+
+        <div class="main-card">
+            <form id="desireForm">
+                <div class="form-group">
+                    <label for="desire" class="form-label">💫 Compartilhe seu desejo:</label>
+                    <textarea 
+                        id="desire" 
+                        name="desire" 
+                        class="desire-input" 
+                        placeholder="Digite aqui o desejo que você gostaria de iluminar e transformar em sabedoria..."
+                        required
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="illuminate-btn" id="illuminateBtn">
+                    🌟 Iluminar Desejo
+                </button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <span>Iluminando seu desejo com sabedoria...</span>
+            </div>
+
+            <div class="result-card" id="resultCard">
+                <h3 class="result-title">
+                    🌸 Seu Desejo Iluminado
+                </h3>
+                <div class="illuminated-desire" id="illuminatedDesire"></div>
+                <div class="additional-info">
+                    <button class="expand-btn" id="expandBtn">
+                        <span>Ver explicação e prática sugerida</span>
+                        <span class="expand-icon">▾</span>
+                    </button>
+                    <div class="additional-content" id="additionalContent"></div>
+                </div>
+            </div>
+
+            <div class="error-card" id="errorCard">
+                <p><strong>Ops!</strong> Houve um problema ao processar seu desejo. Tente novamente em alguns instantes.</p>
+            </div>
+        </div>
+
+        <div class="wisdom-quote">
+            <p class="quote-text">"Desejos mundanos são iluminação"</p>
+            <p class="quote-author">— Nichiren Daishonin</p>
+        </div>
+    </div>
+
+    <script>
+        // Criar estrelas animadas
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 50;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Função para iluminar o desejo usando Groq API
+        async function illuminateDesire(desire) {
+            const API_KEY = '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';
+            
+            const prompt = `Como um sábio seguidor dos ensinamentos de Nichiren Daishonin, transforme este desejo mundano em uma versão iluminada e elevada, seguindo o princípio "Desejos mundanos são iluminação". 
+
+Desejo: "${desire}"
+
+Por favor, responda em português seguindo EXATAMENTE esta estrutura:
+
+DESEJO ILUMINADO:
+[Aqui escreva uma reformulação elevada e inspiradora do desejo]
+
+EXPLICAÇÃO:
+[Breve explicação de como este desejo pode ser visto como um caminho para a iluminação]
+
+PRÁTICA SUGERIDA:
+[Uma prática ou reflexão sugerida baseada no Budismo de Nichiren]
+
+Mantenha o tom inspirador, compassivo e prático.`;
+
+            try {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        messages: [
+                            {
+                                role: 'user',
+                                content: prompt
+                            }
+                        ],
+                        model: 'llama3-8b-8192',
+                        max_tokens: 1000,
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('Erro ao chamar a API:', error);
+                throw error;
+            }
+        }
+
+        // Função para processar e separar o conteúdo
+        function parseResponse(response) {
+            const sections = {
+                illuminated: '',
+                additional: ''
+            };
+
+            // Procurar pelo padrão "DESEJO ILUMINADO:"
+            const illuminatedMatch = response.match(/DESEJO ILUMINADO:\s*(.*?)(?=EXPLICAÇÃO:|$)/is);
+            if (illuminatedMatch) {
+                sections.illuminated = illuminatedMatch[1].trim();
+                
+                // Pegar o restante como conteúdo adicional
+                const remaining = response.replace(/DESEJO ILUMINADO:\s*.*?(?=EXPLICAÇÃO:|$)/is, '').trim();
+                sections.additional = remaining;
+            } else {
+                // Fallback: tentar dividir por parágrafos
+                const paragraphs = response.split('\n\n');
+                if (paragraphs.length > 1) {
+                    sections.illuminated = paragraphs[0];
+                    sections.additional = paragraphs.slice(1).join('\n\n');
+                } else {
+                    sections.illuminated = response;
+                }
+            }
+
+            return sections;
+        }
+
+        // Event listeners
+        document.getElementById('desireForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const desire = document.getElementById('desire').value.trim();
+            if (!desire) return;
+
+            const loading = document.getElementById('loading');
+            const resultCard = document.getElementById('resultCard');
+            const errorCard = document.getElementById('errorCard');
+            const illuminateBtn = document.getElementById('illuminateBtn');
+
+            // Reset UI
+            resultCard.style.display = 'none';
+            errorCard.style.display = 'none';
+            loading.style.display = 'flex';
+            illuminateBtn.disabled = true;
+
+            try {
+                const response = await illuminateDesire(desire);
+                const parsed = parseResponse(response);
+                
+                // Show result
+                document.getElementById('illuminatedDesire').innerHTML = parsed.illuminated.replace(/\n/g, '<br>');
+                document.getElementById('additionalContent').innerHTML = parsed.additional.replace(/\n/g, '<br>');
+                resultCard.style.display = 'block';
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                errorCard.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                illuminateBtn.disabled = false;
+            }
+        });
+
+        // Expand/Collapse functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#expandBtn')) {
+                const additionalContent = document.getElementById('additionalContent');
+                const expandIcon = document.querySelector('.expand-icon');
+                const expandBtn = document.getElementById('expandBtn');
+                
+                if (additionalContent.classList.contains('show')) {
+                    additionalContent.classList.remove('show');
+                    expandIcon.classList.remove('rotated');
+                    expandBtn.querySelector('span').textContent = 'Ver explicação e prática sugerida';
+                } else {
+                    additionalContent.classList.add('show');
+                    expandIcon.classList.add('rotated');
+                    expandBtn.querySelector('span').textContent = 'Ocultar explicação e prática sugerida';
+                }
+            }
+        });
+
+        // Initialize stars
+        createStars();
+    </script>
+</body>
+</html>
