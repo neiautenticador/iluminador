@@ -421,7 +421,7 @@
 
         // Função para iluminar o desejo usando Groq API
         async function illuminateDesire(desire) {
-            const API_KEY = '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';
+            const API_KEY = process.env.GROQ_API_KEY;
             
             const prompt = `Como um sábio seguidor dos ensinamentos de Nichiren Daishonin, transforme este desejo mundano em uma versão iluminada e elevada, seguindo o princípio "Desejos mundanos são iluminação". 
 
